@@ -103,24 +103,27 @@ public class Application {
             	}
         		
         		for (DataModel modelElement : model) {
+        			Pair<Integer, Integer> pair = null;
             		if (empID.intValue() != modelElement.getEmpID().intValue()) {
             			if (modelElement.getEmpID().intValue() < employee.getEmpID().intValue()) {
-            				Pair<Integer, Integer> pair = Pair.of(modelElement.getEmpID(), employee.getEmpID());
-            				Map<Integer, Long> map = internalModel.get(pair);
-            				long cutInDays = getCutInDays(modelElement.getDateFrom(), modelElement.getDateTo(), employee.getDateFrom(), employee.getDateTo());
-            				if (map == null) {
-            					if (cutInDays > 0) {
-            						map = new HashMap<>();
-            						map.put(projectId, cutInDays);
-            						internalModel.put(pair, map);
-            					}
-            				} else {
-            					if (cutInDays > 0) {
-            						map.put(projectId, cutInDays);
-            						internalModel.put(pair, map);
-            					}
-            				}
+            				pair = Pair.of(modelElement.getEmpID(), employee.getEmpID());
+            			} else {
+            				pair = Pair.of(employee.getEmpID(), modelElement.getEmpID());
             			}
+            			Map<Integer, Long> map = internalModel.get(pair);
+        				long cutInDays = getCutInDays(modelElement.getDateFrom(), modelElement.getDateTo(), employee.getDateFrom(), employee.getDateTo());
+        				if (map == null) {
+        					if (cutInDays > 0) {
+        						map = new HashMap<>();
+        						map.put(projectId, cutInDays);
+        						internalModel.put(pair, map);
+        					}
+        				} else {
+        					if (cutInDays > 0) {
+        						map.put(projectId, cutInDays);
+        						internalModel.put(pair, map);
+        					}
+        				}
             		}
             	}
 			}
