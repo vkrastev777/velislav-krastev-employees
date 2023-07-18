@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -67,6 +66,15 @@ public class Application {
 			    int projectID = Integer.parseInt(split[1].trim());
 			    LocalDate dateFrom = getDate(split[2].trim());
 			    LocalDate dateTo = getDate(split[3].trim());
+			    if (dateFrom.isAfter(dateTo)) {
+			    	showErrorMessage("Date from "+dateFrom.toString() + " is after "+dateTo.toString());
+			    }
+			    if (dateTo.isAfter(LocalDate.now())) {
+			    	showErrorMessage("Date to "+dateTo.toString() + " is after today!");
+			    }
+			    if (dateFrom.isAfter(LocalDate.now())) {
+			    	showErrorMessage("Date from "+dateFrom.toString() + "is after today!");
+			    }
 			    DataModel dataModel = new DataModel(empID, projectID, dateFrom, dateTo);
 			    model.add(dataModel);
 			}
