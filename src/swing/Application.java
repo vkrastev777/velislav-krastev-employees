@@ -107,16 +107,17 @@ public class Application {
         		for (DataModel modelElement : model) {
             		if (modelElement.getProjectID().intValue() == projectId.intValue() && empID.intValue() == modelElement.getEmpID().intValue()) {
             			employee = modelElement;
+            			break;
             		}
             	}
         		
         		for (DataModel modelElement : model) {
         			Pair<Integer, Integer> pair = null;
-            		if (empID.intValue() != modelElement.getEmpID().intValue()) {
-            			if (modelElement.getEmpID().intValue() < employee.getEmpID().intValue()) {
+            		if (modelElement.getProjectID().intValue() == projectId.intValue() && empID.intValue() != modelElement.getEmpID().intValue()) {
+            			if (modelElement.getProjectID().intValue() == projectId.intValue() && modelElement.getEmpID().intValue() < employee.getEmpID().intValue()) {
             				pair = Pair.of(modelElement.getEmpID(), employee.getEmpID());
             			} else {
-            				pair = Pair.of(employee.getEmpID(), modelElement.getEmpID());
+            				continue;
             			}
             			Map<Integer, Long> map = internalModel.get(pair);
         				long cutInDays = getCutInDays(modelElement.getDateFrom(), modelElement.getDateTo(), employee.getDateFrom(), employee.getDateTo());
